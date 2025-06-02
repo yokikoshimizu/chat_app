@@ -23,6 +23,15 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%# user_signed_in?…Deviseが提供するヘルパーメソッド。ログインしていればtrue %>
+    <%# user_signed_in? は Devise が提供するヘルパー。ログイン済みか判定できる %>
+    <% if user_signed_in? %>
+      <%# current_user はログイン中のユーザー情報を表す（Deviseが自動で使えるようにしてくれる） %>
+      <p>こんにちは、<%= current_user.email %> さん</p>
+      <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
+    <% else %>
+      <%= link_to "ログイン", new_user_session_path %> |
+      <%= link_to "サインアップ", new_user_registration_path %>
+    <% end %>
   </body>
 </html>
