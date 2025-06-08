@@ -1,2 +1,29 @@
-<h1>Messages#index</h1>
-<p>Find me in app/views/messages/index.html.erb</p>
+<h1>チャットルーム<h1>
+
+<!-- メッセージ一覧表示 -->
+    <div id="メッセージ">
+        <% @messages.each do |m| %>
+            <p>
+                <strong>
+                    <!-- <%= msg.user&.email %>	投稿者のメールアドレスを表示（ログイン中のユーザーなど） -->
+                    <!-- &.（セーフナビゲーション演算子）	userが削除されていてもエラーにならないようにする -->
+                    <%= m.user&.email || "（削除済みユーザー）" %>:div
+                </strong>
+                <!-- contentカラムの中にある文を表示 -->
+                <%= m.content %>
+            </p>
+        <% end %>
+    </div>
+
+<!-- 投稿フォーム -->
+    <%= form_with model: @message, url: messages_path, local true do |f| %>
+        <div>
+            <!-- f.text_area :content　「Messageモデルの content カラムに値を入れる入力欄を表示する」という意味 -->
+            <!-- rows: 3	高さ（行数）を3行に設定 -->
+            <!-- placeholder: "..."	入力前に表示される薄い文字（ヒント文） -->
+            <%= f.text_area :content, rows: 3, placeholder: "メッセージを入力してください" %>
+        </div>
+        <div>
+            <%= f.submit "送信" %>
+        </div>
+    <% end %>
